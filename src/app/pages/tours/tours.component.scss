@@ -1,0 +1,8 @@
+:host {
+  display: block;
+}
+.tours-list {
+  & .tour-iteam{
+    position: relative;
+  }
+}

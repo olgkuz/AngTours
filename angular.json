@@ -34,10 +34,14 @@
             ],
             "styles": [
               "src/styles.scss",
-              "./node_modules/primeflex/primeflex.css"
+              "./node_modules/primeflex/primeflex.css",
+              "./node_modules/primeicons/primeicons.css"
             ],
-            "scripts": []
-          },
+            "scripts": [],
+            "stylePreprocessorOptions": {              
+              "includePaths": ["src/app/styles"]             
+              }
+             },
           "configurations": {
             "production": {
               "budgets": [

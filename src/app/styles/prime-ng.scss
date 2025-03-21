@@ -1,0 +1,22 @@
+.p-card {
+    &:hover {
+        opacity: .9;
+        cursor: pointer;
+    }
+    &.tour-p-card {
+        height: 350px;
+        overflow: hidden;
+
+        & .p-card-header {
+            height: 180px;
+            & img {
+                object-fit: fill;
+                width: 100%;
+                height: 100%;
+            }
+        }
+        & .p-card-content {
+            -webkit-mask-image:linear-gradient(180deg,#000 60%, transperent ) ;
+        }
+    }
+}

@@ -1,0 +1,17 @@
+<div clas="tours-list flex flex-wrap justify-content-space-around align-items-stretch">
+    @for (iteam of tours; track iteam.id) {
+        
+        <div (click)="goToTour(iteam)"
+        class="m-2 col-3 tour-item align-self-stretch">
+            <p-card 
+            header ="{{iteam.name}}"
+            subheader="{{iteam.price}}"
+            styleClass="tour-p-card"
+            >
+             <ng-template #header>
+              <img alt="Card" class="w-full" src="/public/img/{{iteam.img}}">
+             </ng-template>
+            </p-card>
+        </div>
+    }
+</div>
