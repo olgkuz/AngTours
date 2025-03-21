@@ -1,0 +1,29 @@
+
+<div class="flex flex-column m-auto">
+    <div class="flex justify-content-between align-content-center flex-wrap">
+        <span class= "mx-3"> Login </span>
+        <input 
+        type="text"
+        pInputText
+        [ngClass]="{'input-error': !login|| login.length< 3}"
+        [(ngModel)]="login"
+        />
+    </div>
+    <div class="mt-3 flex justify-content-between align-content-center flex-wrap">
+        <span class="mx-3"> Password </span>
+        <input 
+        type="password"
+        pInputText
+        [ngClass]="{'input-error': !password|| password.length< 6}"
+        [(ngModel)]="password"
+        />
+    </div>
+    <div class="mt-3 flex justify-content-between align-content-center flex-wrap">
+        <p-button
+           label = "Sign In" 
+           [disabled]="!login|| !password || login.length< 3|| password.length < 6 " 
+           (click)="onAuth()"
+           ></p-button>
+   
+       </div>
+</div>

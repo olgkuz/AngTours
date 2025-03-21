@@ -1,0 +1,59 @@
+
+<div class="flex flex-column m-auto">
+    <div class="flex justify-content-between align-content-center flex-wrap">
+        <span class= "mx-3"> Login </span>
+        <input 
+        type="text"
+        pInputText
+        [ngClass]="{'input-error': !login|| login.length< 3}"
+        [(ngModel)]="login"
+        />
+    </div>
+    <div class="mt-3 flex justify-content-between align-content-center flex-wrap">
+        <span class="mx-3"> Password </span>
+        <input 
+        type="password"
+        pInputText
+        [ngClass]="{'input-error': !password|| password.length< 6}"
+        [(ngModel)]="password"
+        />
+    </div>
+    <div class="mt-3 flex justify-content-between align-content-center flex-wrap">
+        <span class="mx-3"> Password repeat</span>
+        <input 
+        type="password"
+        pInputText
+        (input)="($event)"
+        [ngClass]="{'input-error': password !== repeatPassword }"
+        [(ngModel)]="repeatPassword"
+        />
+    </div>
+    <div class="mt-3 flex justify-content-between align-content-center flex-wrap">
+        <span class="mx-3"> Email </span>
+        <input 
+        type="email"
+        pInputText    
+        [(ngModel)]="email"
+        />
+    </div>
+    <div class="mt-3">
+     <p-checkbox 
+        inputId = "saveInStore" 
+        [binary]="true"
+         
+        [(ngModel)]="isRemember"
+        ></p-checkbox>
+        <label for="saveInStore" class="ml-2"> {{labelText}}</label>
+
+    </div>
+    <div class="mt-3 flex justify-content-between align-content-center flex-wrap">
+        <p-button
+           label = "Sign Up" 
+           [disabled]=" login?.length< 3|| password?.length < 6 || password !== repeatPassword " 
+           (click)="onAuth($event)"
+           ></p-button>
+   
+       </div>
+       
+    
+</div>
