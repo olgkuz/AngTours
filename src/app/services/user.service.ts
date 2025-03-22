@@ -8,9 +8,8 @@ import { Observable, Observer } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
-  authUser(user: IUser):Observable<string> {
-    throw new Error('Method not implemented.');
-  }
+
+
 
  
 
@@ -23,8 +22,8 @@ export class UserService {
   }
  
 
-  addUser(user: IUser): Observable<string>{
-   return this.http.post<string>(API.auth,user);
+  authUser(user: IUser): Observable<string>{
+   return this.http.post<string>(API.auth, user);
   }
   getUser(): IUser {
     return this.currentUser

@@ -21,7 +21,7 @@
     <div class="mt-3 flex justify-content-between align-content-center flex-wrap">
         <p-button
            label = "Sign In" 
-           [disabled]="!login|| !password || login.length< 3|| password.length < 6 " 
+           [disabled]="login?.length < 3|| password?.length < 6 " 
            (click)="onAuth()"
            ></p-button>
    

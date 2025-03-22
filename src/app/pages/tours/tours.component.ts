@@ -17,7 +17,7 @@ export class ToursComponent implements OnInit {
   
   
   
-  constructor( private tourService:ToursService,
+  constructor( private toursService:ToursService,
     private route:ActivatedRoute,
     private router: Router
   ){}

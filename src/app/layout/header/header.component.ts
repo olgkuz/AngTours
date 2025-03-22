@@ -17,7 +17,6 @@ import { MenubarModule } from 'primeng/menubar';
 export class HeaderComponent implements OnInit,OnDestroy {
 
   dateTime: Date;
-  menuIteams: MenuItem[]=[];
   user:IUser;
   logoutIcon = 'pi pi-user';
 menuItems: MenuItem[];
@@ -28,7 +27,7 @@ menuItems: MenuItem[];
 
   ngOnInit(): void {
     this.user =  this.userService.getUser();
-    this.menuIteams = this.initMenuItems();
+    this.menuItems = this.initMenuItems();
     
     setInterval(()=>{
       this.dateTime = new Date();
