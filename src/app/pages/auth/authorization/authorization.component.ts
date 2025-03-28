@@ -38,7 +38,10 @@ const user:IUser = {
 }
 this.userService.authUser(user).subscribe(
 
-  ()=>{this.router.navigate(['tours']);},
+  ()=>{
+    this.userService.setUser(user);
+    this.router.navigate(['tours']);
+  },
   ()=> {this.initToast('error',  'Произошла ошибка' );}
   )
 }

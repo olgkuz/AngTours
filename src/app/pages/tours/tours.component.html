@@ -1,5 +1,22 @@
-<div clas="tours-list flex flex-wrap justify-content-space-around align-items-stretch">
-    @for (iteam of tours; track iteam.id) {
+
+
+<p-inputgroup>
+    <input 
+    
+    pInputText 
+    placeholder="поис тура" 
+    #searchInput
+    />
+    <p-inputgroup-addon>
+        <p-button icon="pi pi-search" severity="secondary" variant="text" />
+    </p-inputgroup-addon>
+</p-inputgroup>
+
+
+
+<div clas="tours-list flex flex-wrap justify-content-around align-items-stretch">
+    @for (iteam of tours | search : searchInput.value : 'name'; track iteam.id) {
+        
         
         <div (click)="goToTour(iteam)"
         class="m-2 col-3 tour-item align-self-stretch">
@@ -9,9 +26,15 @@
             styleClass="tour-p-card"
             >
              <ng-template #header>
-              <img alt="Card" class="w-full" src="/public/img/{{iteam.img}}">
+              <img alt="Card" class="w-full" src="/img/{{iteam.img}}">
              </ng-template>
+            
+                <p>{{iteam.description}}</p>
+             
             </p-card>
         </div>
+    }
+    @empty {
+        <div class="no-data"> Нет данных </div>
     }
 </div>

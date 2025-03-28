@@ -1,1 +1,26 @@
-<p>tour-iteam works!</p>,
+
+<p-button
+label="Back"
+styleClass="p-button-link"
+routerLink="/tours"
+></p-button>
+<div class="flex flex-1">
+    @if (tour) {
+    <p-card 
+    header="{{tour.name}}"
+    subheader="{{tour.price}}"
+    styleClass="p-card-shadow col-10 overflow-auto">
+    <ng-template pTemplate="header">
+        <img alt="Tour"  src="/img/{{tour.img}}">
+    </ng-template>
+    <p> <p>{{tour.description}}</p>
+    </p-card>
+    } @else {нет данных}
+    <div class="nearst-tour">
+        <app-nearest-tours 
+        [tourNearest]="tour"/>
+    </div>
+</div>
+
+
+

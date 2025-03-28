@@ -1,0 +1,5 @@
+<p-galleria [value]="toursArr()" [showIndicators]="true" [showThumbnails]="false" [containerStyle]="{ 'max-width': '340px' }">
+    <ng-template #item let-item>
+        <img [src]="'/img/'+item.img" style="width: 100%; display: block;" />
+    </ng-template>
+</p-galleria>

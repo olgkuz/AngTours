@@ -4,10 +4,19 @@
   "newProjectRoot": "projects",
   "projects": {
     "AngTours": {
+      "i18n": {  
+        "sourceLocale": "ru"
+       },
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
+          "skipTests": true
+        },
+        "@schematics/angular:guard": {
+          "skipTests": true
+        },
+        "@schematics/angular:pipe": {
           "skipTests": true
         }
       },

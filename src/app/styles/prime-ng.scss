@@ -16,7 +16,11 @@
             }
         }
         & .p-card-content {
-            -webkit-mask-image:linear-gradient(180deg,#000 60%, transperent ) ;
+            -webkit-mask-image:linear-gradient(180deg,#000 60%, transparent ) ;
         }
     }
+}
+.p-menubar-root-list {
+    min-width: 100px;
+    max-width: 300px;
 }

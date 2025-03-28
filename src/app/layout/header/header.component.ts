@@ -6,10 +6,11 @@ import {  Router } from '@angular/router';
 import  {MenuItem } from 'primeng/api'
 import { ButtonModule } from 'primeng/button';
 import { MenubarModule } from 'primeng/menubar';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-header',
-  imports: [MenubarModule, ButtonModule ],
+  imports: [MenubarModule, ButtonModule, DatePipe ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
   
@@ -17,10 +18,10 @@ import { MenubarModule } from 'primeng/menubar';
 export class HeaderComponent implements OnInit,OnDestroy {
 
   dateTime: Date;
-  menuIteams: MenuItem[]=[];
+  
   user:IUser;
   logoutIcon = 'pi pi-user';
-menuItems: MenuItem[];
+  menuItems: MenuItem[]=[];
   
 
   constructor(private userService: UserService, private router: Router) {}
@@ -28,7 +29,7 @@ menuItems: MenuItem[];
 
   ngOnInit(): void {
     this.user =  this.userService.getUser();
-    this.menuIteams = this.initMenuItems();
+    this.menuItems = this.initMenuItems();
     
     setInterval(()=>{
       this.dateTime = new Date();
