@@ -24,3 +24,9 @@
     min-width: 100px;
     max-width: 300px;
 }
+.p-menubar-item-content {
+    & .p-menubar-item-link-active {
+        color: #4c308d;
+        font-weight: bold;
+    }
+}
