@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgModule, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ToursService } from '../../services/tours.service';
 import { ITour } from '../../models/tours';
 import { ButtonModule } from 'primeng/button';
-import {  NgIf } from '@angular/common';
+import { Location } from '@angular/common';
 import { CardModule } from 'primeng/card';
 import { NearestToursComponent } from './nearest-tours/nearest-tours.component';
+Location
 
 @Component({
   selector: 'app-tour-iteam',
-  imports: [ButtonModule,CardModule,RouterLink, NearestToursComponent ],
+  imports: [ButtonModule,CardModule,RouterLink, NearestToursComponent],
   templateUrl: './tour-iteam.component.html',
   styleUrl: './tour-iteam.component.scss',
 })
@@ -18,7 +19,8 @@ export class TourIteamComponent  implements OnInit{
   tour:ITour ;
   constructor(
     private tourService: ToursService, 
-    private route:ActivatedRoute){}
+    private route:ActivatedRoute,
+    private location: Location){}
 
   ngOnInit():void {
     this.tourId = this.route.snapshot.paramMap.get('id');
@@ -28,4 +30,8 @@ export class TourIteamComponent  implements OnInit{
  
   });
 }
+  onTourChanges(ev:ITour):void {
+    this.tour = ev;
+    this.location.replaceState('tours/tour/' +this.tour .id);
+  }
 }

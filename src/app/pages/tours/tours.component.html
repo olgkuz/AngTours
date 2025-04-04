@@ -14,7 +14,11 @@
 
 
 
-<div class="tours-list flex flex-wrap justify-content-around align-items-stretch">
+<div appHighlightActive
+selector='.tour-item'
+[initFirst]="true"
+(onEnter)="selectActive($event)"
+class="tours-list flex flex-wrap justify-content-around align-items-stretch">
     @for (iteam of tours | search : searchInput.value : 'name'; track iteam.id) {
         
         

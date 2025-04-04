@@ -2,8 +2,11 @@
   display: block;
 }
 .tours-list {
-   & .tour-iteam {
+   & .tour-item {
     position: relative;
+    &.active{
+      border: 1px solid red;
+    }
   }
  
 }

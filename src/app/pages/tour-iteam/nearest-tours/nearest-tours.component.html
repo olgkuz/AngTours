@@ -1,5 +1,24 @@
-<p-galleria [value]="toursArr()" [showIndicators]="true" [showThumbnails]="false" [containerStyle]="{ 'max-width': '340px' }">
+<p-inputgroup class="my-3">
+  <input 
+  
+    pInputText 
+    placeholder="поис тура" 
+    #searchInput
+  />
+  <p-inputgroup-addon>
+    <p-button icon="pi pi-search" severity="secondary" variant="text" />
+</p-inputgroup-addon>
+</p-inputgroup>
+
+<p-galleria
+(activeIndexChange)="activeIndexChange($event)"
+ class="tour-item-galleria"
+ [value]="toursArr()"
+  [showIndicators]="true" 
+    [showThumbnails]="false" 
+    [containerStyle]="{ 'width': '340px' }"
+  >
     <ng-template #item let-item>
-        <img [src]="'/img/'+item.img" style="width: 100%; display: block;" />
+        <img [ngSrc]="'/img/'+ item.img" priority fill/>
     </ng-template>
 </p-galleria>

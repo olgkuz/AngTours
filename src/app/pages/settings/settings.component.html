@@ -1,0 +1,22 @@
+<p-button label="Back"
+ styleClass="p-button-link " 
+ routerLink="/tours"
+ >
+ </p-button>
+    <div class="settings-wrap">
+    
+    
+        @for (item of menuIteams; track item.path) {
+            <p-button 
+            label="{{item.label}}"
+            styleClass=" p-button-link"
+            [routerLink]="item.path"
+            >
+        </p-button>
+        }
+        <div class="menu-content">
+            <router-outlet/>
+        </div>
+    </div>
+
+

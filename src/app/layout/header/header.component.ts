@@ -1,5 +1,5 @@
 
-import { Component,OnDestroy,OnInit } from '@angular/core';
+import { Component,NgZone,OnDestroy,OnInit } from '@angular/core';
 import { IUser } from '../../models/user';
 import { UserService } from '../../services/user.service';
 import {  Router } from '@angular/router';
@@ -24,16 +24,19 @@ export class HeaderComponent implements OnInit,OnDestroy {
   menuItems: MenuItem[]=[];
   
 
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(private userService: UserService, private router: Router, private ngZone: NgZone) {}
 
 
   ngOnInit(): void {
     this.user =  this.userService.getUser();
     this.menuItems = this.initMenuItems();
-    
-    setInterval(()=>{
-      this.dateTime = new Date();
-    },1000);
+
+    this.ngZone.runOutsideAngular (()=>{
+      setInterval(()=>{
+        this.dateTime = new Date();
+      },1000);
+    });
+     
   }
   ngOnDestroy(){}
   initMenuItems(): MenuItem  []{
@@ -45,7 +48,7 @@ export class HeaderComponent implements OnInit,OnDestroy {
       },
       {
         label: 'Настройки',
-        routerLink:['/setting'],
+        routerLink:['/settings'],
       },
       {
         label: 'Заказы',

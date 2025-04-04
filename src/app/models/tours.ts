@@ -6,7 +6,7 @@ export interface ITour {
     price: string;
     img: string;
     type?: string;
-    data?: string;
+    date?: string;
     locationId: string;
 }
 export interface IToursServerRes {

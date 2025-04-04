@@ -1,3 +1,13 @@
 :host {
   display: block;
 }
+.tour-item-wrap {
+  & > div {
+    width: 50%;
+  }
+
+  & .nearst-tour{
+    display: flex;
+    justify-content: center;
+  }
+}
