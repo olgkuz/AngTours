@@ -48,7 +48,7 @@ export class HeaderComponent implements OnInit,OnDestroy {
       },
       {
         label: 'Настройки',
-        routerLink:['/settings'],
+        routerLink:['settings'],
       },
       {
         label: 'Заказы',
@@ -64,4 +64,7 @@ export class HeaderComponent implements OnInit,OnDestroy {
    hoverLogoutBtn(val: boolean): void {
    this.logoutIcon =val ? 'pi pi-sign-out' : 'pi pi-user'
 }
+  getLogin(){
+    return this.user?.login
+  }
 }

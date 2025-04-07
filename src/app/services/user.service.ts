@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IUser, IUserRegister } from '../models/user';
+import { IUser, IUserRegister, UserStorageKey } from '../models/user';
 import { HttpClient, JsonpInterceptor } from '@angular/common/http';
 import { API } from '../shared/api';
 import { Observable, Observer } from 'rxjs';
@@ -25,20 +25,12 @@ export class UserService {
   }
 
   getUser(): IUser {
-  
-    if (!this.currentUser) {
-      const sessionUser: IUser =
-      JSON.parse(sessionStorage.getItem('AngularTourUser'));
-    if(sessionUser) {
-       this.currentUser = sessionUser
-    }else {
-      return null
+    const userFromStorage = sessionStorage.getItem(UserStorageKey);
+    return this.currentUser || JSON.parse(userFromStorage);
    }
-    }
-    return this.currentUser
-  }
+    
   setUser (user:IUser): void {
     this.currentUser = user;
-    sessionStorage.setItem('AngularTourUser',JSON.stringify(user))
+    sessionStorage.setItem(UserStorageKey,JSON.stringify({login:user.login}))
   }
 }

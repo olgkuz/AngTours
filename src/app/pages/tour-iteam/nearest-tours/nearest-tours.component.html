@@ -1,16 +1,18 @@
-<p-inputgroup class="my-3">
+<p-inputgroup class="my-3 ">
   <input 
   
     pInputText 
     placeholder="поис тура" 
     #searchInput
   />
-  <p-inputgroup-addon>
+  <p-inputgroup-addon >
     <p-button icon="pi pi-search" severity="secondary" variant="text" />
 </p-inputgroup-addon>
 </p-inputgroup>
-
+<div>
+@if(toursArr()?.length > 0) { 
 <p-galleria
+
 (activeIndexChange)="activeIndexChange($event)"
  class="tour-item-galleria"
  [value]="toursArr()"
@@ -22,3 +24,9 @@
         <img [ngSrc]="'/img/'+ item.img" priority fill/>
     </ng-template>
 </p-galleria>
+} @else{ 
+  <div > 
+  Туров не найдено  
+</div>
+}
+</div>

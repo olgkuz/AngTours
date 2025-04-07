@@ -8,7 +8,19 @@ export interface ITour {
     type?: string;
     date?: string;
     locationId: string;
+    country?:IContriesResponseIteam;
+    code?:string;
 }
 export interface IToursServerRes {
-    tours: ITour []
+    tours: ITour[];
+}
+export interface IContriesResponseIteam {
+    iso_code2: string;
+    iso_code3: string;
+    name_ru: string;
+    flag_url:string;
+}
+export interface IFilterTypeLogic {
+    key: 'all'| 'single'|'group',
+    label?: string
 }

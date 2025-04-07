@@ -8,3 +8,4 @@ export interface IUserRegister {
     password?: string;
     email: string;
 }
+export const UserStorageKey = 'current_user';

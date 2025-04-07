@@ -19,22 +19,22 @@ selector='.tour-item'
 [initFirst]="true"
 (onEnter)="selectActive($event)"
 class="tours-list flex flex-wrap justify-content-around align-items-stretch">
-    @for (iteam of tours | search : searchInput.value : 'name'; track iteam.id) {
+    @for (item of tours | search : searchInput.value : 'name'; track item.id) {
         
         
-        <div (click)="goToTour(iteam)"
+        <div (click)="goToTour(item)"
         class="m-2 col-3 tour-item align-self-stretch">
             <p-card 
-            header ="{{iteam.name}}"
-            subheader="{{iteam.price}}"
+            header ="{{item.name}}"
+            subheader="{{item.price}}"
             styleClass="tour-p-card"
             >
              <ng-template #header>
-              <img alt="Card" class="w-full" src="/img/{{iteam.img}}">
+              <img alt="Card" class="w-full" src="/img/{{item.img}}">
              </ng-template>
             
-                <p>{{iteam.description}}</p>
-             
+                <p>{{item.description}}</p>
+                <p>Страна: {{item.country?.name_ru}} <img [src]="item.country?.flag_url"/></p>
             </p-card>
         </div>
     }

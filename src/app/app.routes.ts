@@ -18,20 +18,18 @@ export const routes: Routes = [
         children:[
             { path:'',component:ToursComponent, data:{showAside:true}},
             { path:'tour/:id', component:TourIteamComponent},
-            { path: 'tour', redirectTo:'', pathMatch:'full'
-
-            },
-            { path: 'settings', 
-            canActivate: [authGuard],    
-            component: SettingsComponent,
-            children:[
-                { path:'', redirectTo:'change-password', pathMatch: 'full',},
-                { path:'change-password', component: ChangePasswordComponent},
-                { path:'statistic', component: StatisticComponent, data:{showAside:true}},
-            ]
-        }, 
+            { path: 'tour', redirectTo:'', pathMatch:'full'},
+                { path: 'settings', 
+                    canActivate: [authGuard],    
+                    component: SettingsComponent,
+                    children:[
+                        { path:'', redirectTo:'change-password', pathMatch: 'full',},
+                        { path:'change-password', component: ChangePasswordComponent},
+                        { path:'statistic', component: StatisticComponent, data:{showAside:true}},
+                    ],
+                }, 
+            
+            { path: '**', redirectTo: '/auth', pathMatch: 'full' }, 
         ]
-    },
-    
-    { path: '**', redirectTo: '/auth', pathMatch: 'full' }, 
-];
+    }
+    ]
