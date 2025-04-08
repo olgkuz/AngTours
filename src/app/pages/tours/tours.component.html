@@ -34,7 +34,9 @@ class="tours-list flex flex-wrap justify-content-around align-items-stretch">
              </ng-template>
             
                 <p>{{item.description}}</p>
-                <p>Страна: {{item.country?.name_ru}} <img [src]="item.country?.flag_url"/></p>
+                <p (click)="getCountryDetail($event, item.country?.iso_code2)">
+                Страна: {{item.country?.name_ru}}
+                 <img [src]="item.country?.flag_url"/></p>
             </p-card>
         </div>
     }
@@ -42,3 +44,15 @@ class="tours-list flex flex-wrap justify-content-around align-items-stretch">
         <div class="no-data"> Нет данных </div>
     }
 </div>
+
+
+<p-dialog [(visible)]="showModal" [modal]="true" [style]="{width:'50rem'}">
+
+    @if (showModal) {
+        <map [ location ]="location" ></map>
+    }
+
+    <ng-template #footer>
+        <p-button label="Закрыть" [text]="true" severity="secondary" (click)="showModal=false"/>
+    </ng-template>
+</p-dialog>

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { forkJoin, map, Observable, Subject } from 'rxjs';
 import { API } from '../shared/api';
-import { IContriesResponseIteam, ITour, IToursServerRes } from '../models/tours';
+import { Coords, IContriesResponseIteam, IFilterTypeLogic, ITour, IToursServerRes } from '../models/tours';
 
 @Injectable({
   providedIn: 'root'
@@ -76,12 +76,29 @@ export class ToursService {
       return[];
     }
   }
-  initChangeTourType (val:any): void {
+  initChangeTourType (val:IFilterTypeLogic): void {
     this.tourTypeSubject.next(val)
   }
-  initChangeTourDate (val:any): void {
+  initChangeTourDate (val:Date): void {
     this.tourDateSubject.next(val)
   }
   
+  getCountryByCode(code:string):Observable<any>{
+    return this.http.get<Coords[]>(API.countryByCode,{params:{codes:code}}).pipe(
+      map((countrieDate)=>{
+        console.log('countrieDate',countrieDate);
+        const coords = {lat:countrieDate.latlng[0],lng: countrieDate.latlng[1]};
+        return this.mapService.getWeather(coords).pipe(
+          map((weatherResponce)=>{
+            const current = weatherResponce.current;
+            const hourly = weatherResponce.hourly;
+             const weatherResponce = {
+              isDay
+             }
+          })
+        )
+      })
+    )
+  }
 
 }

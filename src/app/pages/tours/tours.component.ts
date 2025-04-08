@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ToursService } from '../../services/tours.service';
 import { CardModule} from 'primeng/card';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IFilterTypeLogic, ITour } from '../../models/tours';
+import { IFilterTypeLogic, ILocation, ITour } from '../../models/tours';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { ButtonModule } from 'primeng/button';
@@ -12,6 +12,8 @@ import { FormsModule } from '@angular/forms';
 import { HighlightActiveDirective } from '../../shared/directives/highlight-active.directive';
 import {isValid } from "date-fns";
 import { Subject, Subscription, takeUntil } from 'rxjs';
+import { MapComponent } from '../../shared/components/map/map.component';
+import {DialogModule} from 'primeng/dialog'
 @Component({
   selector: 'app-tours',
   imports: [
@@ -22,22 +24,22 @@ import { Subject, Subscription, takeUntil } from 'rxjs';
     InputText,
     SearchPipe,
     FormsModule,
-    HighlightActiveDirective
+    HighlightActiveDirective,
+    MapComponent,
+    DialogModule
   ],
   templateUrl: './tours.component.html',
   styleUrl: './tours.component.scss',
 })
 export class ToursComponent implements OnInit, OnDestroy {
  
-
-  
   tours: ITour[]=[];
   toursStore:ITour []=[];
-  searchValue = ''; 
   dateTourFilter: Date;
   typeTourFilter:IFilterTypeLogic = {key: 'all'}
-  
   destroyer = new Subject<boolean>();
+  showModal = false;
+  location:ILocation = null;
 
 
 
@@ -50,34 +52,29 @@ export class ToursComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     //Type
-    this.toursService.tourType$.pipe(
-      takeUntil(this.destroyer)
-
-    ).subscribe((tour)=>{
+    this.toursService.tourType$.pipe(takeUntil(this.destroyer)).subscribe((tour)=> {
       console.log('tour',tour)
       this.typeTourFilter = tour;
       this.initTourFilterLogic();
     });
 
     //Date
-     this.toursService.tourDate$.pipe(
-      takeUntil(this.destroyer)
-      
-    ).subscribe((date) => {
+     this.toursService.tourDate$.pipe(takeUntil(this.destroyer)).subscribe((date) => {
       this.dateTourFilter = date;
       console.log('****date',date);
       this.initTourFilterLogic()
       });
     
-    
+    console.log('activetedRouter', this.route)
     this.toursService.getTours().subscribe((data)=>{
-      if (Array.isArray(data?.tours)) {
-        this.tours = data.tours;
+      if (Array.isArray(data)) {
+        this.tours = data;
         this.toursStore = [...data.tours];
       }
     });
     
   }
+ 
   ngOnDestroy(): void {
     this.destroyer.next(true);
     this.destroyer.complete();
@@ -93,10 +90,50 @@ export class ToursComponent implements OnInit, OnDestroy {
   }
 
   selectActive (index: number):void {
-    console.log('index',index);
+   
     const targetTour = this.tours.find((tour, i) => i === index);
     if (targetTour) {
       this.goToTour(targetTour);
     }
   }
+   initTourFilterLogic():void{
+    //logic for type
+    if (this.typeTourFilter){
+      switch (this.typeTourFilter.key){
+        case 'group':
+          this.tours = this.toursStore.filter((el)=> el.type === 'group')
+        break;
+        case 'single':
+          this.tours = this.toursStore.filter((el)=> el.type === 'single')
+        break;
+        case 'all':
+          this.tours =[...this.toursStore] 
+        break;
+
+      }
+    }
+    //logic for date
+    if(this.dateTourFilter) {
+      this.tours = this.tours.filter((tour)=> {
+        if(this.dateTourFilter && isValid(new Date(this.dateTourFilter))){
+          const tourDate = new Date(tour.date).setHours(0, 0, 0);
+          const calendarDate =new Date (this.dateTourFilter).setHours(0, 0, 0)
+          return tourDate === calendarDate;
+        } else {
+          return false;
+        }
+      });
+    }
+   }
+   getCountryDetail(ev:Event,code:string):void {
+    ev.stopPropagation(); 
+    this.toursService.getCountryByCode(code).subscribe((data)=> {
+      if (Array.isArray(data)) {
+        const countryInfo = data[0];
+        console.log('countryInfo',countryInfo)
+        this.location = {lat: countryInfo.latlng[0], lng: countryInfo.latlng[1]};
+        this.showModal = true;
+      }
+    });
+   }
   }

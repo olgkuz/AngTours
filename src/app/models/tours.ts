@@ -24,3 +24,8 @@ export interface IFilterTypeLogic {
     key: 'all'| 'single'|'group',
     label?: string
 }
+export interface ILocation {
+    lat: number;
+    lng: number;
+}
+export type Coords = {latlng:[number,number]} 
