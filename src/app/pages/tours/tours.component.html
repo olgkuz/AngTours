@@ -47,6 +47,9 @@ class="tours-list flex flex-wrap justify-content-around align-items-stretch">
 
 
 <p-dialog [(visible)]="showModal" [modal]="true" [style]="{width:'50rem'}">
+    <ng-template #header>
+        <p>Погода: </p>
+    </ng-template>
 
     @if (showModal) {
         <map [ location ]="location" ></map>

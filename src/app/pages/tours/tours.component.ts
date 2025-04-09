@@ -128,8 +128,8 @@ export class ToursComponent implements OnInit, OnDestroy {
    getCountryDetail(ev:Event,code:string):void {
     ev.stopPropagation(); 
     this.toursService.getCountryByCode(code).subscribe((data)=> {
-      if (Array.isArray(data)) {
-        const countryInfo = data[0];
+      if (data) {
+        const countryInfo = data.countrieData;
         console.log('countryInfo',countryInfo)
         this.location = {lat: countryInfo.latlng[0], lng: countryInfo.latlng[1]};
         this.showModal = true;

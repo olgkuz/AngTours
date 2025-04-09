@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { forkJoin, map, Observable, Subject } from 'rxjs';
+import { forkJoin, map, Observable, Subject, switchMap } from 'rxjs';
 import { API } from '../shared/api';
-import { Coords, IContriesResponseIteam, IFilterTypeLogic, ITour, IToursServerRes } from '../models/tours';
+import { Coords, IContriesResponseItem, IFilterTypeLogic, ITour, IToursServerRes } from '../models/tours';
 
 @Injectable({
   providedIn: 'root'
@@ -18,12 +18,13 @@ export class ToursService {
 
   constructor(private http: HttpClient) { }
 
-  getTours(): Observable<IToursServerRes> { 
-    const countries = this.http.get<IContriesResponseIteam[]>(API.countries);
+  getTours(): Observable<ITour[]> { 
+
+    const countries = this.http.get<IContriesResponseItem[]>(API.countries);
     const tours = this.http.get<IToursServerRes>(API.tours)
 
     //parralel
-    return forkJoin<[IContriesResponseIteam[],IToursServerRes]>([countries,tours]).pipe(
+    return forkJoin<[IContriesResponseItem[],IToursServerRes]>([countries,tours]).pipe(
 
       map((data) => {
         console.log('data',data);
@@ -84,20 +85,33 @@ export class ToursService {
   }
   
   getCountryByCode(code:string):Observable<any>{
-    return this.http.get<Coords[]>(API.countryByCode,{params:{codes:code}}).pipe(
-      map((countrieDate)=>{
-        console.log('countrieDate',countrieDate);
-        const coords = {lat:countrieDate.latlng[0],lng: countrieDate.latlng[1]};
+
+    return this.http.get<Coords[]>(API.countryByCode, {params:{codes:code}}).pipe(
+
+      map((countrieDataArr)=> countrieDataArr[0]),
+      switchMap((countrieData)=>{
+        console.log('countrieData',countrieData);
+        const coords = {lat: countrieData.latlng[0], lng: countrieData.latlng[1]};
+        
         return this.mapService.getWeather(coords).pipe(
-          map((weatherResponce)=>{
+
+          map((weatherResponce)=> {
+
             const current = weatherResponce.current;
             const hourly = weatherResponce.hourly;
-             const weatherResponce = {
-              isDay
-             }
+
+             const weatherData = {
+              isDay: current.is_day,
+              snowfall: current.snowfall,
+              rain: current.rain,
+              currentWeather: hourly.temperature_2m[15]};
+
+              console.log('weatherData',weatherData)
+              return {countrieData,weatherData}
+            
           })
         )
-      })
+      }),
     )
   }
 
