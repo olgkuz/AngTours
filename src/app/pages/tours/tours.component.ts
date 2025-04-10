@@ -13,7 +13,7 @@ import { HighlightActiveDirective } from '../../shared/directives/highlight-acti
 import {isValid } from "date-fns";
 import { Subject, Subscription, takeUntil } from 'rxjs';
 import { MapComponent } from '../../shared/components/map/map.component';
-import {DialogModule} from 'primeng/dialog'
+import { DialogModule } from 'primeng/dialog'
 @Component({
   selector: 'app-tours',
   imports: [
@@ -39,7 +39,7 @@ export class ToursComponent implements OnInit, OnDestroy {
   typeTourFilter:IFilterTypeLogic = {key: 'all'}
   destroyer = new Subject<boolean>();
   showModal = false;
-  location:ILocation = null;
+  location: ILocation = null;
 
 
 
@@ -69,7 +69,7 @@ export class ToursComponent implements OnInit, OnDestroy {
     this.toursService.getTours().subscribe((data)=>{
       if (Array.isArray(data)) {
         this.tours = data;
-        this.toursStore = [...data.tours];
+        this.toursStore = [...data];
       }
     });
     
@@ -125,13 +125,14 @@ export class ToursComponent implements OnInit, OnDestroy {
       });
     }
    }
-   getCountryDetail(ev:Event,code:string):void {
+   getCountryDetail(ev: Event, code:string): void {
+
     ev.stopPropagation(); 
     this.toursService.getCountryByCode(code).subscribe((data)=> {
       if (data) {
-        const countryInfo = data.countrieData;
-        console.log('countryInfo',countryInfo)
-        this.location = {lat: countryInfo.latlng[0], lng: countryInfo.latlng[1]};
+        const countrieInfo = data.countrieData;
+        console.log('countrieInfo',countrieInfo)
+        this.location = {lat: countrieInfo.latlng[0], lng: countrieInfo.latlng[1]};
         this.showModal = true;
       }
     });

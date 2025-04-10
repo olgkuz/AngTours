@@ -1,15 +1,15 @@
 export interface IWeatherResponce {
     current: IWeatherCurrent,
-    hourly: IweatherHourly
+    hourly: IWeatherHourly,
 
 }
 export type WeatherCurrentValue = 0 | 1;
 
 export interface IWeatherCurrent {
-    is_day:WeatherCurrentValue,
+    is_day: WeatherCurrentValue,
     rain: WeatherCurrentValue,
     snowfall: WeatherCurrentValue,
 }
-export interface IweatherHourly {
+export interface IWeatherHourly {
     temperature_2m: number[],
 }

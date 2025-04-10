@@ -12,15 +12,16 @@ export class MapService {
 
   constructor(private http: HttpClient) { }
 
-  getWeather(coord:ILocation): Observable<IWeatherResponce> {
+  getWeather(coord: ILocation): Observable<IWeatherResponce> {
     const params = {
       "latitude": coord.lat,
       "longitude": coord.lng,
       "hourly": "temperature_2m",
-      "current": ["is_day","snowfall","rain"],
+      "current": ["is_day", "snowfall", "rain"],
       "forecast_days": 1
 
     };
+    
     return this.http.get<IWeatherResponce>(API.getWhether,{params})
 
   }

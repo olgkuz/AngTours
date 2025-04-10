@@ -17,7 +17,7 @@ export class AsideComponent  implements OnInit {
 
   selectedType: any = null; // TODO defined type
 
-  tourTypes=[                             // TODO defined type
+  tourTypes:[                             // TODO defined type
     {key: 'single', label: 'Одиночный'},
     {key: 'group', label: 'Груповой'},
     {key: 'all', label: 'Все'}

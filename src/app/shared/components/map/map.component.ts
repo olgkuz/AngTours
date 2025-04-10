@@ -7,10 +7,9 @@ import * as olProj from 'ol/proj'
 import { ILocation } from '../../../models/tours';
 
 @Component({
-  selector: 'app-map',
-  imports: [],
-  templateUrl: './map.component.html',
-  styleUrl: './map.component.scss',
+  selector: 'map',
+  templateUrl: "map.component.html",
+  styleUrls: ['map.component.scss'],
 })
 export class MapComponent implements AfterViewInit{ 
 @Input() location: ILocation;

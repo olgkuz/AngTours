@@ -34,6 +34,7 @@ class="tours-list flex flex-wrap justify-content-around align-items-stretch">
              </ng-template>
             
                 <p>{{item.description}}</p>
+
                 <p (click)="getCountryDetail($event, item.country?.iso_code2)">
                 Страна: {{item.country?.name_ru}}
                  <img [src]="item.country?.flag_url"/></p>
@@ -46,13 +47,13 @@ class="tours-list flex flex-wrap justify-content-around align-items-stretch">
 </div>
 
 
-<p-dialog [(visible)]="showModal" [modal]="true" [style]="{width:'50rem'}">
+<p-dialog [(visible)]="showModal" [modal]="true" [style]="{ width:'50rem' }">
     <ng-template #header>
         <p>Погода: </p>
     </ng-template>
 
     @if (showModal) {
-        <map [ location ]="location" ></map>
+        <map [location]="location"></map>
     }
 
     <ng-template #footer>
