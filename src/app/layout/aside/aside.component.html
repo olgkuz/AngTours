@@ -12,6 +12,7 @@ class="w-full md:w-56" />
     <p-datepicker 
     [showIcon]="true" 
     (onSelect)="changeDate($event)"
+    (onClearClick)="clearDate()"
     [(ngModel)]="date" 
     [showButtonBar]="true" 
     dateFormat="dd-mm-yy"

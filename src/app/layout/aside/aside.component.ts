@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { SelectChangeEvent, SelectModule } from "primeng/select";
 import { ToursService } from '../../services/tours.service';
 import { DatePickerModule } from 'primeng/datepicker';
+import { IFilterTypeLogic } from '../../models/tours';
+
 @Component({
   selector: 'app-aside',
   imports: [SelectModule,FormsModule,DatePickerModule ],
@@ -15,9 +17,9 @@ export class AsideComponent  implements OnInit {
 
   date: Date = null; // или Date ()
 
-  selectedType: any = null; // TODO defined type
+  selectedType: IFilterTypeLogic = null; // TODO defined type
 
-  tourTypes:[                             // TODO defined type
+  tourTypes: IFilterTypeLogic[]= [                             // TODO defined type
     {key: 'single', label: 'Одиночный'},
     {key: 'group', label: 'Груповой'},
     {key: 'all', label: 'Все'}
@@ -35,6 +37,9 @@ export class AsideComponent  implements OnInit {
     this.tourService.initChangeTourDate(ev);
     
     }
+   clearDate(): void{
+    this.tourService.initChangeTourDate(null);
+   } 
 }
 
 

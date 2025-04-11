@@ -71,6 +71,8 @@ export class ToursComponent implements OnInit, OnDestroy {
         this.tours = data;
         this.toursStore = [...data];
       }
+    },(err)=>{
+      console.log('****',err)
     });
     
   }
