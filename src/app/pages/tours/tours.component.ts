@@ -14,6 +14,8 @@ import {isValid } from "date-fns";
 import { Subject, Subscription, takeUntil } from 'rxjs';
 import { MapComponent } from '../../shared/components/map/map.component';
 import { DialogModule } from 'primeng/dialog'
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { BasketService } from '../../services/basket.service';
 @Component({
   selector: 'app-tours',
   imports: [
@@ -40,18 +42,21 @@ export class ToursComponent implements OnInit, OnDestroy {
   destroyer = new Subject<boolean>();
   showModal = false;
   location: ILocation = null;
+  selectedTour: ITour = null;
 
 
 
   constructor( 
     private toursService:ToursService,
     private route:ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private basketService: BasketService
   ) {}
 
   ngOnInit(): void {
 
     //Type
+    
     this.toursService.tourType$.pipe(takeUntil(this.destroyer)).subscribe((tour)=> {
       console.log('tour',tour)
       this.typeTourFilter = tour;
@@ -98,6 +103,7 @@ export class ToursComponent implements OnInit, OnDestroy {
       this.goToTour(targetTour);
     }
   }
+  
    initTourFilterLogic():void{
     //logic for type
     if (this.typeTourFilter){
@@ -127,7 +133,7 @@ export class ToursComponent implements OnInit, OnDestroy {
       });
     }
    }
-   getCountryDetail(ev: Event, code:string): void {
+   getCountryDetail(ev: Event, code:string, tour:ITour): void {
 
     ev.stopPropagation(); 
     this.toursService.getCountryByCode(code).subscribe((data)=> {
@@ -139,4 +145,13 @@ export class ToursComponent implements OnInit, OnDestroy {
       }
     });
    }
+   setIteamToBasket(ev: Event, item: ITour): void {
+    ev.stopPropagation();
+    this.basketService.setIteamToBasket(item);
+   }
+   removeItemFromBasket(ev: Event, item:ITour): void {
+    ev.stopPropagation();
+    this.basketService.removeItemFromBasket(item);
+ 
   }
+}

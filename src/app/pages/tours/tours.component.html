@@ -22,8 +22,7 @@ class="tours-list flex flex-wrap justify-content-around align-items-stretch">
     @for (item of tours | search : searchInput.value : 'name'; track item.id) {
         
         
-        <div (click)="goToTour(item)"
-        class="m-2 col-3 tour-item align-self-stretch">
+        <div (click)="goToTour(item)"class="m-2 col-3 tour-item align-self-stretch">
             <p-card 
             header ="{{item.name}}"
             subheader="{{item.price}}"
@@ -35,28 +34,47 @@ class="tours-list flex flex-wrap justify-content-around align-items-stretch">
             
                 <p>{{item.description}}</p>
 
-                <p (click)="getCountryDetail($event, item.country?.iso_code2)">
+                <p (click)="getCountryDetail($event, item.country?.iso_code2, item)">
                 Страна: {{item.country?.name_ru}}
-                 <img [src]="item.country?.flag_url"/></p>
+                 <img [src]="item.country?.flag_url"/>
+                </p>
             </p-card>
+             <div class="basket my-2 ml-2">
+                @if(!item.inBasket) {
+                    <i (click)="setIteamToBasket($event, item)" class="pi pi-cart-plus" style="color: green;"></i>
+
+                }
+                @else { 
+                    <i (click)="removeItemFromBasket($event, item)" class="pi pi-cart-minus" style="color: red;"></i>
+                }
+             </div>
+
+         
         </div>
-    }
-    @empty {
+    } @empty {
         <div class="no-data"> Нет данных </div>
     }
 </div>
 
 
-<p-dialog [(visible)]="showModal" [modal]="true" [style]="{ width:'50rem' }">
-    <ng-template #header>
-        <p>Погода: </p>
-    </ng-template>
+<p-dialog 
+[(visible)]="showModal" 
+[modal]="true" 
+[style]="{ width:'50rem' }">
+<ng-template #header>
+    <p>Погода:</p>
+</ng-template>
+   
 
     @if (showModal) {
-        <map [location]="location"></map>
+        <map [location]="location">
+            <p>Тур {{selectedTour.name}}</p>
+            
+        </map>
     }
 
     <ng-template #footer>
         <p-button label="Закрыть" [text]="true" severity="secondary" (click)="showModal=false"/>
     </ng-template>
+
 </p-dialog>

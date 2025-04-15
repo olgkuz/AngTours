@@ -3,7 +3,21 @@
         <p-menubar [model] = "menuItems" />
     </div>
     <div class="layout-header__right-block">
+
         <div class="user-info"></div>
+        
+        <div class="basket mr-4">
+            
+        <p-overlaybadge 
+            badgeSize="small"
+            [value]="(basketStore$ | async).length"
+            severity="danger">
+
+            <div class="basket-icon-wrap">
+            <i class="pi pi-cart-arrow-down"></i>
+            </div>
+        </p-overlaybadge>
+        </div>
         <div class="logoout">
             <p-button
             [icon]="logoutIcon"

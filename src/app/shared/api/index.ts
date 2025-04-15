@@ -10,5 +10,6 @@ export const API = {
     nearestTours:`${serverIp}/nearestTours`,
     countries:`${serverIp}/countries`,
     countryByCode: 'https://restcountries.com/v3.1/alpha',
-    getWhether:"https://api.open-meteo.com/v1/forecast"
+    getWhether:"https://api.open-meteo.com/v1/forecast",
+    order:`${serverIp}/order`,
 }

@@ -22,5 +22,14 @@
     & .user-info {
       width: 100px;
     }
+    & .basket {
+      display: flex;
+      align-items: center;
+      & .basket-icon-wrap{
+        position: relative;
+        top: 10px;
+        font-size: 0.8rem;
+      }
+    }
   }
 }

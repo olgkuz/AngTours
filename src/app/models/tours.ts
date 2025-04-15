@@ -1,4 +1,5 @@
 export interface ITour {
+    
     id: string;
     name: string;
     description: string;
@@ -8,8 +9,9 @@ export interface ITour {
     type?: string;
     date?: string;
     locationId: string;
-    country?:IContriesResponseItem;
-    code?:string;
+    country?: IContriesResponseItem;
+    code?: string;
+    inBasket?: boolean;
 }
 export interface IToursServerRes {
     tours: ITour[];
