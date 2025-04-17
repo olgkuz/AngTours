@@ -33,3 +33,14 @@ export interface ILocation {
 export type Coords = {
     latlng:[number,number]
 } 
+export interface IWeatherData {
+    isDay: number;
+    snowfall: number;
+    rain: number;
+    currentWeather: number;
+  }
+  
+  export interface ICountryWeather {
+    countrieData: Coords;
+    weatherData: IWeatherData;
+  }

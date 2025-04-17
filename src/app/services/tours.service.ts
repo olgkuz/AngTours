@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, delay, forkJoin, map, Observable, of, Subject, switchMap, tap, withLatestFrom } from 'rxjs';
 import { API } from '../shared/api';
-import { Coords, IContriesResponseItem, IFilterTypeLogic, ITour, IToursServerRes } from '../models/tours';
+import { Coords, IContriesResponseItem, ICountryWeather, IFilterTypeLogic, ITour, IToursServerRes } from '../models/tours';
 import { MapService } from './map.service';
 import { LoaderService } from './loader.service';
 import { BasketService } from './basket.service';
@@ -114,7 +114,7 @@ export class ToursService {
     this.tourDateSubject.next(val)
   }
   
-  getCountryByCode(code: string): Observable<any>{
+  getCountryByCode(code: string): Observable<ICountryWeather>{
 
     return this.http.get<Coords[]>(API.countryByCode, {params:{codes:code}}).pipe(
 

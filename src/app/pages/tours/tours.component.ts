@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ToursService } from '../../services/tours.service';
 import { CardModule} from 'primeng/card';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IFilterTypeLogic, ILocation, ITour } from '../../models/tours';
+import { IFilterTypeLogic, ILocation, ITour, IWeatherData } from '../../models/tours';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { ButtonModule } from 'primeng/button';
@@ -16,10 +16,12 @@ import { MapComponent } from '../../shared/components/map/map.component';
 import { DialogModule } from 'primeng/dialog'
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { BasketService } from '../../services/basket.service';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-tours',
   imports: [
     CardModule,
+    CommonModule, 
     InputGroupModule,
     InputGroupAddonModule, 
     ButtonModule,
@@ -43,7 +45,7 @@ export class ToursComponent implements OnInit, OnDestroy {
   showModal = false;
   location: ILocation = null;
   selectedTour: ITour = null;
-
+  weatherData: IWeatherData | null = null;
 
 
   constructor( 

@@ -58,23 +58,27 @@ class="tours-list flex flex-wrap justify-content-around align-items-stretch">
 
 
 <p-dialog 
-[(visible)]="showModal" 
-[modal]="true" 
-[style]="{ width:'50rem' }">
-<ng-template #header>
-    <p>Погода:</p>
-</ng-template>
+  [(visible)]="showModal" 
+  [modal]="true" 
+  [style]="{ width:'50rem' }">
+  
+  <ng-template #header>
+    <p *ngIf="weatherData">
+      Погода: {{ weatherData.currentWeather }}°C
+      <span *ngIf="weatherData.rain > 0"> Идёт дождь</span>
+      <span *ngIf="weatherData.snowfall > 0"> Идёт снег</span>
+    </p>
    
+  </ng-template>
 
-    @if (showModal) {
-        <map [location]="location">
-            <p>Тур {{selectedTour.name}}</p>
-            
-        </map>
-    }
+  @if (showModal) {
+    <map [location]="location">
+      <p>Тур {{selectedTour.name}}</p>
+    </map>
+  }
 
-    <ng-template #footer>
-        <p-button label="Закрыть" [text]="true" severity="secondary" (click)="showModal=false"/>
-    </ng-template>
+  <ng-template #footer>
+    <p-button label="Закрыть" [text]="true" severity="secondary" (click)="showModal=false"/>
+  </ng-template>
 
 </p-dialog>
