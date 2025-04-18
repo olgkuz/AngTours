@@ -46,7 +46,7 @@ export class OrderComponent implements OnInit{
 
   ngOnInit(): void {
   this.tourId =  this.route.snapshot.paramMap.get('id');
-  this.tourService.getTourById(this.tourId).subscribe((tour)=>{
+  this.tourService.getTourById(this.tourId).subscribe((tour)=> {
     this.tour = tour;
   })
 

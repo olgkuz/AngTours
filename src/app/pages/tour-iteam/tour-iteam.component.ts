@@ -10,7 +10,11 @@ Location
 
 @Component({
   selector: 'app-tour-iteam',
-  imports: [ButtonModule,CardModule,RouterLink, NearestToursComponent],
+  imports: [
+    ButtonModule,
+    CardModule,
+    RouterLink, 
+    NearestToursComponent],
   templateUrl: './tour-iteam.component.html',
   styleUrl: './tour-iteam.component.scss',
 })
@@ -37,6 +41,6 @@ export class TourIteamComponent  implements OnInit{
     this.location.replaceState('tours/tour/' +this.tour .id);
   }
   initOrder(ev:Event): void {
-    this.router.navigate(['/tours/order', this.tour.id])
+    this.router.navigate(['/tours/order', this.tour.id]);
   }
 }

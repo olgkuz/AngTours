@@ -27,11 +27,12 @@ export const routes: Routes = [
                         { path:'', redirectTo:'change-password', pathMatch: 'full',},
                         { path:'change-password', component: ChangePasswordComponent},
                         { path:'statistic', component: StatisticComponent, data:{showAside:true}},
-                    ],
+                    ]
                 },
-                {path:'order/:id', component:OrderComponent}, 
-            
-            { path: '**', redirectTo: '/auth', pathMatch: 'full' }, 
-        ]
-    },
+                {path: 'order/:id', component: OrderComponent}, 
+            ]
+        },
+        { path: '**', redirectTo: '/auth', pathMatch: 'full' }, 
+        
+    
     ];

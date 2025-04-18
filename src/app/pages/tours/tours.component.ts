@@ -46,18 +46,24 @@ export class ToursComponent implements OnInit, OnDestroy {
   location: ILocation = null;
   selectedTour: ITour = null;
   weatherData: IWeatherData | null = null;
+  isAdmin:boolean = false;
 
 
   constructor( 
     private toursService:ToursService,
     private route:ActivatedRoute,
     private router: Router,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService,
     private basketService: BasketService
   ) {}
 
   ngOnInit(): void {
+    
 
     //Type
+    this.userIsAdmin();
+    
     
     this.toursService.tourType$.pipe(takeUntil(this.destroyer)).subscribe((tour)=> {
       console.log('tour',tour)
@@ -83,6 +89,20 @@ export class ToursComponent implements OnInit, OnDestroy {
     });
     
   }
+  
+  
+  
+
+  userIsAdmin(): void {
+  const userData = sessionStorage.getItem('current_user')
+  if(userData) {
+    const user = JSON.parse(userData)
+    this.isAdmin = user.login === 'admin';
+
+  } else {
+    this.isAdmin = false;
+  }
+}
  
   ngOnDestroy(): void {
     this.destroyer.next(true);
@@ -147,9 +167,37 @@ export class ToursComponent implements OnInit, OnDestroy {
       }
     });
    }
-   setIteamToBasket(ev: Event, item: ITour): void {
+
+   removeTour(tourId:string, ev:Event): void {
     ev.stopPropagation();
-    this.basketService.setIteamToBasket(item);
+    this.confirmationService.confirm({
+      message: `Вы уверены, что хотите удалить тур ?`,
+      acceptLabel: 'Да',
+      rejectLabel: 'Нет',
+      accept: () => {
+      
+    
+  this.toursService.deleteTourById(tourId).subscribe({
+    next:()=> {
+      this.tours = this.tours.filter(tour => tour.id !== tourId);
+      this.messageService.add({severity: 'success',summary: ' Успех ', detail: ' Тур удален'});
+    },
+    error: ()=> {
+      this.messageService.add({ severity:'error',summary: 'Ошибка', detail: 'Тур не удален'});
+    },
+
+  });
+},
+
+})
+}
+
+
+
+   
+   setItemToBasket(ev: Event, item: ITour): void {
+    ev.stopPropagation();
+    this.basketService.setItemToBasket(item);
    }
    removeItemFromBasket(ev: Event, item:ITour): void {
     ev.stopPropagation();
