@@ -36,6 +36,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './tours.component.scss',
 })
 export class ToursComponent implements OnInit, OnDestroy {
+[x: string]: any;
  
   tours: ITour[]=[];
   toursStore:ITour []=[];
@@ -46,14 +47,14 @@ export class ToursComponent implements OnInit, OnDestroy {
   location: ILocation = null;
   selectedTour: ITour = null;
   weatherData: IWeatherData | null = null;
-  isAdmin:boolean = false;
+ 
 
 
   constructor( 
     private toursService:ToursService,
     private route:ActivatedRoute,
     private router: Router,
-    private confirmationService: ConfirmationService,
+
     private messageService: MessageService,
     private basketService: BasketService
   ) {}
@@ -62,7 +63,7 @@ export class ToursComponent implements OnInit, OnDestroy {
     
 
     //Type
-    this.userIsAdmin();
+    
     
     
     this.toursService.tourType$.pipe(takeUntil(this.destroyer)).subscribe((tour)=> {
@@ -91,18 +92,6 @@ export class ToursComponent implements OnInit, OnDestroy {
   }
   
   
-  
-
-  userIsAdmin(): void {
-  const userData = sessionStorage.getItem('current_user')
-  if(userData) {
-    const user = JSON.parse(userData)
-    this.isAdmin = user.login === 'admin';
-
-  } else {
-    this.isAdmin = false;
-  }
-}
  
   ngOnDestroy(): void {
     this.destroyer.next(true);
@@ -163,34 +152,13 @@ export class ToursComponent implements OnInit, OnDestroy {
         const countrieInfo = data.countrieData;
         console.log('countrieInfo',countrieInfo)
         this.location = {lat: countrieInfo.latlng[0], lng: countrieInfo.latlng[1]};
+        this.selectedTour = tour;
         this.showModal = true;
       }
     });
    }
 
-   removeTour(tourId:string, ev:Event): void {
-    ev.stopPropagation();
-    this.confirmationService.confirm({
-      message: `Вы уверены, что хотите удалить тур ?`,
-      acceptLabel: 'Да',
-      rejectLabel: 'Нет',
-      accept: () => {
-      
-    
-  this.toursService.deleteTourById(tourId).subscribe({
-    next:()=> {
-      this.tours = this.tours.filter(tour => tour.id !== tourId);
-      this.messageService.add({severity: 'success',summary: ' Успех ', detail: ' Тур удален'});
-    },
-    error: ()=> {
-      this.messageService.add({ severity:'error',summary: 'Ошибка', detail: 'Тур не удален'});
-    },
-
-  });
-},
-
-})
-}
+   
 
 
 
@@ -204,4 +172,4 @@ export class ToursComponent implements OnInit, OnDestroy {
     this.basketService.removeItemFromBasket(item);
  
   }
-}
+} 

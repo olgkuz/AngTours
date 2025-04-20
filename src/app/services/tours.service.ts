@@ -146,10 +146,7 @@ export class ToursService {
       }),
     )
   }
-  deleteTourById(id: string): Observable<ITour[]> {
-    const tourApi =API.tour;
-    return this.http.delete<ITour[]>(tourApi);
-  }
+ 
   postOrder(orderBody:any):Observable<any> {
     return this.http.post<any>(API.order,orderBody);
   }
