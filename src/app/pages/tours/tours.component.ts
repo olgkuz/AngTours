@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ToursService } from '../../services/tours.service';
 import { CardModule} from 'primeng/card';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -17,6 +17,8 @@ import { DialogModule } from 'primeng/dialog'
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { BasketService } from '../../services/basket.service';
 import { CommonModule } from '@angular/common';
+import { UserService } from '../../services/user.service';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 @Component({
   selector: 'app-tours',
   imports: [
@@ -30,8 +32,10 @@ import { CommonModule } from '@angular/common';
     FormsModule,
     HighlightActiveDirective,
     MapComponent,
-    DialogModule
+    DialogModule,
+    ConfirmDialogModule,
   ],
+  providers: [ConfirmationService],
   templateUrl: './tours.component.html',
   styleUrl: './tours.component.scss',
 })
@@ -46,15 +50,15 @@ export class ToursComponent implements OnInit, OnDestroy {
   showModal = false;
   location: ILocation = null;
   selectedTour: ITour = null;
-  weatherData: IWeatherData | null = null;
- 
+  weatherData: IWeatherData  = null;
+  userLogin = inject(UserService).getUser()?.login;
 
 
   constructor( 
     private toursService:ToursService,
     private route:ActivatedRoute,
     private router: Router,
-
+    private confirmationService: ConfirmationService,
     private messageService: MessageService,
     private basketService: BasketService
   ) {}
@@ -153,12 +157,45 @@ export class ToursComponent implements OnInit, OnDestroy {
         console.log('countrieInfo',countrieInfo)
         this.location = {lat: countrieInfo.latlng[0], lng: countrieInfo.latlng[1]};
         this.selectedTour = tour;
+        this.weatherData = data.weatherData;
         this.showModal = true;
       }
     });
    }
 
    
+   //removeTour(ev: Event, tour: ITour): void {
+    //ev.stopPropagation();
+    //this.toursService.deleteTourById(tour?.id).subscribe ((data)=>{
+      //this.tours = data;
+       // this.toursStore = [...data]}
+   // )
+   //}
+   removeTour(ev: Event, tour: ITour): void {
+    ev.stopPropagation();
+  
+    this.confirmationService.confirm({
+      message: `Вы уверены, что хотите удалить тур "${tour.name}"?`,
+      header: 'Подтверждение',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Да',
+      rejectLabel: 'Нет',
+      accept: () => {
+        this.toursService.deleteTourById(tour.id).subscribe({
+          next: (updatedTours) => {
+            
+            this.toursStore = [...updatedTours];
+            this.tours = this.toursStore; 
+            
+            this.messageService.add({ severity: 'success', summary: 'Успешно', detail: 'Тур удалён' });
+          },
+          error: () => {
+            this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Не удалось удалить тур' });
+          }
+        });
+      }
+    });
+  }
 
 
 

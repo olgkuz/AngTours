@@ -38,7 +38,7 @@ export class HeaderComponent implements OnInit,OnDestroy {
     private userService: UserService, 
     private router: Router, 
     private ngZone: NgZone) {}
-    private  basketService: BasketService
+    //private  basketService: BasketService
 
   ngOnInit(): void {
 

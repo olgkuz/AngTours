@@ -82,10 +82,17 @@ export class ToursService {
     
   }
   getTourById(id:string):Observable<ITour>{
-    const tourApi =API.tour;
-    const path =API.tour+'/'+id;   // альтернативный способ
+    const tourApi = API.tour;
+    const path = API.tour+'/'+id;   // альтернативный способ
     return this.http.get<ITour>(`${tourApi}/${id}`)
   }
+  deleteTourById(id:string):Observable<ITour[]>{
+    const tourApi =API.tour;
+    return this.http.delete<ITour[]>(`${tourApi}/${id}`)
+  }
+
+
+
   getNearestTourByLocationId(id:string):Observable<ITour[]>{
     return this.http.get<ITour[]> (API.nearestTours,{
       params:{locationId: id}
