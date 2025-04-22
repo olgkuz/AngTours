@@ -9,6 +9,8 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { ButtonModule } from 'primeng/button';
 import { UserService } from '../../services/user.service';
 import { NgTemplateOutlet } from '@angular/common';
+import { IOrderBody, IUserPersonalData } from '../../models/user';
+import { MessageService } from 'primeng/api';
 
 
 @Component({
@@ -31,17 +33,23 @@ export class OrderComponent implements OnInit{
   tourId: string = null;
   tour: ITour;
   userForm : FormGroup;
-  userFormFiledsArr=[
-    {label: 'Имя', placeHolder:'Введите имя', control: 'firstName'},
-    {label: 'Фамилия ', placeHolder:'Введите фамилию', control: 'lastName'},
-    {label: 'Номер карты', placeHolder:'Введите номер карты', control: 'cardNumber'},
-  ]
+
+  userFormFiledsArr = [
+    { label: 'Имя', placeHolder: 'Введите имя', control: 'firstName' },
+    { label: 'Фамилия', placeHolder: 'Введите фамилию', control: 'lastName' },
+    { label: 'Номер карты', placeHolder: 'Введите номер карты', control: 'cardNumber' },
+    { label: 'Возраст', placeHolder: 'Введите возраст', control: 'age', type: 'number' },
+    { label: 'День рождения', placeHolder: 'Выберите дату рождения', control: 'birthDate', type: 'date' },
+    { label: 'Гражданство', placeHolder: 'Введите гражданство', control: 'citizenship' }
+  ];
+  
 
 
   constructor(
     private tourService: ToursService,
     private route: ActivatedRoute,
     private userService: UserService,
+    private messageService: MessageService 
   ) {}
 
   ngOnInit(): void {
@@ -52,22 +60,26 @@ export class OrderComponent implements OnInit{
 
   this.userForm = new FormGroup ({
     firstName: new FormControl('', {validators: Validators.required}),
-    lastNmae: new FormControl('',[ Validators.required, Validators.minLength(2)]),
-    cardNumber: new FormControl('',[ Validators.required, Validators.minLength(3)]),
-    birthDate: new FormControl('',[ Validators.required]),
-    age: new FormControl('',[ Validators.required]),
-    citizenship: new FormControl('',[ Validators.required])
+    lastName: new FormControl('',[Validators.required, Validators.minLength(2)]),
+    cardNumber: new FormControl('',[Validators.required, Validators.minLength(3)]),
+    birthDate: new FormControl('',[Validators.required]),
+    age: new FormControl('',[Validators.required]),
+    citizenship: new FormControl('',[Validators.required])
   })
 }
-  initOrder():void{
-    const userLogin = this.userService.getUser().login;
-    const personalData = this.userForm.getRawValue();
-    const postObj = {
-      userLogin,
-      tourId: this.tourId,
-      personalData:[personalData]
+initOrder(): void {
+  const userLogin = this.userService.getUser().login;
+  const personalData: IUserPersonalData = this.userForm.getRawValue();
 
-    }
-    this.tourService.postOrder(postObj).subscribe()
-  }
+  const postObj: IOrderBody = {
+    userLogin,
+    tourId: this.tourId,
+    personalData: [personalData]
+  };
+
+  this.tourService.postOrder(postObj).subscribe(() => {
+    this.messageService.add({ severity: 'success', summary: 'Успех', detail: 'Заказ оформлен' });
+  });
+}
+
 }

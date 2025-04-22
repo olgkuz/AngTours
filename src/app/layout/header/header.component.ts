@@ -84,4 +84,8 @@ export class HeaderComponent implements OnInit,OnDestroy {
   getLogin(){
     return this.user?.login
   }
+  goToBasket(): void {
+    this.router.navigate(['/tours/basket']);
+  }
+  
 }

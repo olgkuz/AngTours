@@ -59,7 +59,7 @@ export class ToursService {
 
             return{
               ...tour,
-              country: countriesMap.get(tour.code)|| null //add new prop
+              country: countriesMap.get(tour.code) || null //add new prop
             }
           });
         }

@@ -1,16 +1,31 @@
-<p-table [value]="basketItems$| async" [tableStyle]="{'min-width': '50rem'}">
-    <ng-template #header>
-        <tr>
-            <th>Тур</th>
-            <th>Цена</th>
-            <th>Дата</th>
-        </tr>
-    </ng-template>
-    <ng-template #body let-tour>
-        <tr>
-            <td>{{ tour.name}}</td>
-            <td>{{ tour.price}}</td>
-            <td>{{ tour.date}}</td>
-        </tr>
-    </ng-template>
+<p-table
+  [value]="basketItems$ | async"
+  [tableStyle]="{ 'min-width': '50rem' }"
+  sortMode="multiple">
+
+  <ng-template #header>
+    <tr>
+      <th >Тур </th>
+      <th pSortableColumn="price">Цена <p-sortIcon field="price" /></th>
+      <th pSortableColumn="date">Дата <p-sortIcon field="date" /></th>
+      <th>Удалить</th>
+    </tr>
+  </ng-template>
+
+  <ng-template #body let-tour>
+    <tr>
+      <td>{{ tour.name }}</td>
+      <td>{{ tour.price }}</td>
+      <td>{{ tour.date }}</td>
+      <td>
+        <button
+          pButton
+          icon="pi pi-trash"
+          class="p-button-rounded p-button-danger p-button-text"
+          (click)="removeFromBasket(tour)">
+        </button>
+      </td>
+    </tr>
+  </ng-template>
+
 </p-table>

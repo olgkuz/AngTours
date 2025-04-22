@@ -1,102 +1,79 @@
 <div class="ticket-info-wrap col-6">
     <div>
-        <a routerLink="/tours"> назад </a>
-        <div class="mt-3">
-            <h2>Информация о туре</h2>
-            <div> Название {{tour?.name}}</div>
-        </div>
-        <div class="mt-3">
-            <h2>Информация о покупателе</h2>
-            <form>
-                <div class="mt-3 user-info"[formGroup]="userForm">
-                    @for (fieldObj of userFormFiledsArr; track fieldObj.control){
-                        <ng-container
-                        [ngTemplateOutlet]="formFiled"
-                        [ngTemplateOutletContext]="fieldObj"/>
-                    } 
-                    <div class="form-group mt-3">
-                        <label for="name" class="mx-3">Имя</label>
-                        <input type="text"
-                            class="form-control mt-3"
-                            id="name"
-                            pInputText
-                            formControlName="firstNmae"
-                            placeholder="Введите имя">
-        
-                    </div>
-                    <div class="form-group mt-3">
-                        <label for="surname" class="mx-3">Фамилия</label>
-                        <input type="text"
-                            class="form-control mt-3"
-                            id="surname"
-                            pInputText
-                            formControlName="lastNmae"
-                            placeholder="Введите фамилию">
-        
-                    </div>
-                    <div class="form-group mt-3">
-                        <label for="cardNumber" class="mx-3">Номер карты</label>
-                        <input type="text"
-                            class="form-control mt-3"
-                            id="cardNumber"
-                            pInputText
-                            formControlName="cardNumber"
-                            placeholder="Введите номер карты">
-        
-                    </div>
-                    <div class="form-group mt-3">
-                        <label class="mx-3">Возраст</label>
-                        <p-inputNumber 
-                            name="text"
-                            formControlName="age"
-                            [showButtons]="true"
-                            min="2"
-                            max="100"
-                            class="form-control mt-3">
-                        </p-inputNumber>
-        
-                    </div>
-                    <div class="form-group mt-3">
-                        <label  class="mx-3">День рождения</label>
-                            <p-date-picker
-                            name="birthDate"
-                            formControlName="birthDate"
-                            class="form-control mt-3">
-                        </p-date-picker>
-                    </div>
-                    <div class="form-group mt-3">
-                        <label for="citizenship" class="mx-3">Гражданство</label>
-                        <input type="text"
-                            class="form-control mt-3"
-                            id="citizenship"
-                            pInputText
-                            formControlName="citizenship"
-                            placeholder="Введите гражданство">
-        
-                    </div>
-                    <div class="form-group mt-3">
-                        <p-button
-                        (click)="initOrder()"
-                        class="btn btn-primary"
-                        [disabled]="!userForm.valid">
-                        перейти к оформлению 
-                    </p-button>
-
-
-                    </div>
-                </div>
-            </form>
-        </div>
+      <a routerLink="/tours">назад</a>
+  
+      <div class="mt-3">
+        <h2>Информация о туре</h2>
+        <div>Название: {{ tour?.name }}</div>
+      </div>
+  
+      <div class="mt-3">
+        <h2>Информация о покупателе</h2>
+        <form [formGroup]="userForm">
+          <div class="mt-3 user-info">
+  
+            @for (fieldObj of userFormFiledsArr; track fieldObj.control) {
+              <ng-container
+                [ngTemplateOutlet]="formFiled"
+                [ngTemplateOutletContext]="{
+                  controlNew: fieldObj.control,
+                  placeHolder: fieldObj.placeHolder,
+                  label: fieldObj.label,
+                  type: fieldObj.type
+                }"
+              />
+            }
+  
+            <div class="form-group mt-3">
+              <p-button
+                (click)="initOrder()"
+                class="btn btn-primary"
+                [disabled]="!userForm.valid"
+                label="Сформировать заказ">
+              </p-button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
-</div>
-<ng-template #formFiled let-controlNew="control" let-placeHolder ="placeHolder" let-label="label">
-    <div [formGroup]="userForm" class="form-group mt-3">
-        <label [attr.for]="controlNew" class="mx-3"> {{label}}</label>
-        <input type ="text"
+  </div>
+  
+
+<ng-template
+  #formFiled
+  let-controlNew="controlNew"
+  let-placeHolder="placeHolder"
+  let-label="label"
+  let-type="type">
+
+  <div [formGroup]="userForm" class="form-group mt-3">
+    <label [attr.for]="controlNew" class="mx-3">{{ label }}</label>
+
+    @if (type === 'number') {
+      <p-inputNumber
         class="form-control mt-3"
-        [id]="controlNew"
-        pInputText
+        [formControlName]="controlNew"
+        [placeholder]="placeHolder"
+        [showButtons]="true"
+        min="1"
+        max="120">
+      </p-inputNumber>
+    } @else if (type === 'date') {
+      <p-date-picker
+        class="form-control mt-3"
         [formControlName]="controlNew"
         [placeholder]="placeHolder">
-    </div>
+      </p-date-picker>
+    } @else {
+      <input
+        type="text"
+        class="form-control mt-3"
+        pInputText
+        [id]="controlNew"
+        [formControlName]="controlNew"
+        [placeholder]="placeHolder">
+    }
+  </div>
 </ng-template>
+
+  

@@ -26,4 +26,7 @@ export class BasketService {
     item.inBasket = false;
     this.basketSubject.next(this.basketStore);
   } 
+  getCurrentBasket(): ITour[] {
+    return [...this.basketStore]; 
+}
 }
