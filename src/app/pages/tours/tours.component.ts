@@ -46,6 +46,7 @@ export class ToursComponent implements OnInit, OnDestroy {
   toursStore:ITour []=[];
   dateTourFilter: Date;
   typeTourFilter:IFilterTypeLogic = {key: 'all'}
+  showOnlyInBasket = false;
   destroyer = new Subject<boolean>();
   showModal = false;
   location: ILocation = null;
@@ -79,10 +80,17 @@ export class ToursComponent implements OnInit, OnDestroy {
     //Date
      this.toursService.tourDate$.pipe(takeUntil(this.destroyer)).subscribe((date) => {
       this.dateTourFilter = date;
-      console.log('****date',date);
-      this.initTourFilterLogic()
+      this.initTourFilterLogic();
+    });
+
+    //Basket
+    this.toursService.onlyBasket$
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((onlyBasket) => {
+        this.showOnlyInBasket = onlyBasket;
+        this.initTourFilterLogic();
       });
-    
+
     console.log('activetedRouter', this.route)
     this.toursService.getTours().subscribe((data)=>{
       if (Array.isArray(data)) {
@@ -92,6 +100,7 @@ export class ToursComponent implements OnInit, OnDestroy {
     },(err)=>{
       console.log('****',err)
     });
+   
     
   }
   
@@ -120,6 +129,8 @@ export class ToursComponent implements OnInit, OnDestroy {
   }
   
    initTourFilterLogic():void{
+
+    let filtered = [...this.toursStore];
     //logic for type
     if (this.typeTourFilter){
       switch (this.typeTourFilter.key){
@@ -147,7 +158,13 @@ export class ToursComponent implements OnInit, OnDestroy {
         }
       });
     }
+    if (this.showOnlyInBasket) {
+      filtered = filtered.filter(t => t.inBasket);
+    }
+
+    this.tours = filtered;
    }
+
    getCountryDetail(ev: Event, code:string, tour:ITour): void {
 
     ev.stopPropagation(); 
@@ -164,13 +181,7 @@ export class ToursComponent implements OnInit, OnDestroy {
    }
 
    
-   //removeTour(ev: Event, tour: ITour): void {
-    //ev.stopPropagation();
-    //this.toursService.deleteTourById(tour?.id).subscribe ((data)=>{
-      //this.tours = data;
-       // this.toursStore = [...data]}
-   // )
-   //}
+   
    removeTour(ev: Event, tour: ITour): void {
     ev.stopPropagation();
   

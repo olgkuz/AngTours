@@ -4,7 +4,7 @@
 <p-select 
 [options]="tourTypes" 
 [(ngModel)]="selectedType" 
-(onChange)="changeTourType($event)"
+(onChange)="changeTourType()"
 optionLabel="label" 
 placeholder="Выберите тип тура" 
 class="w-full md:w-56" />
@@ -19,3 +19,11 @@ class="w-full md:w-56" />
     />
 </div>
 </div>
+<label class="flex align-items-center gap-2">
+  <p-checkbox
+    [(ngModel)]="showOnlyInBasket"
+    (ngModelChange)="onToggleBasketFilter()"
+    binary="true">
+  </p-checkbox>
+  <span>Показать только туры в корзине</span>
+</label>

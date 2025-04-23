@@ -29,3 +29,13 @@
   </ng-template>
 
 </p-table>
+<div class="mt-4 text-right">
+  <button
+    pButton
+    label="Оформить заказ"
+    icon="pi pi-check"
+    class="p-button-success"
+    [disabled]="!(basketItems$ | async)?.length"
+    (click)="goToOrder()">
+  </button>
+</div>

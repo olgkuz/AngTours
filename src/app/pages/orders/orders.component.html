@@ -1,0 +1,20 @@
+<p-table [value]="orders" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Логин</th>
+        <th>ID Тура</th>
+        <th>Кол-во туристов</th>
+        <th>ФИО</th>
+      </tr>
+    </ng-template>
+  
+    <ng-template pTemplate="body" let-order>
+      <tr>
+        <td>{{ order.userLogin }}</td>
+        <td>{{ order.tourId }}</td>
+        <td>{{ order.touristCount }}</td>
+        <td>{{ order.fullNames }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+  

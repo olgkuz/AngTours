@@ -9,6 +9,7 @@ import { ChangePasswordComponent } from './pages/settings/change-password/change
 import { StatisticComponent } from './pages/settings/statistic/statistic.component';
 import { OrderComponent } from './pages/order/order.component';
 import { BasketComponent } from './pages/basket/basket.component';
+import { OrdersComponent } from './pages/orders/orders.component';
 
 export const routes: Routes = [
     { path: 'auth', component: AuthComponent}, 
@@ -31,6 +32,7 @@ export const routes: Routes = [
                     ]
                 },
                 {path: 'order/:id', component: OrderComponent}, 
+                { path: 'orders', component: OrdersComponent },
                 { path: 'basket', component: BasketComponent, canActivate: [authGuard] }
             ]
         },

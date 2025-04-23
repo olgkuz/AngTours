@@ -1,45 +1,51 @@
-import { Component, OnInit, inject} from '@angular/core';
-
+import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SelectChangeEvent, SelectModule } from "primeng/select";
+import { SelectModule } from "primeng/select";
+import { CheckboxModule } from 'primeng/checkbox';
 import { ToursService } from '../../services/tours.service';
 import { DatePickerModule } from 'primeng/datepicker';
 import { IFilterTypeLogic } from '../../models/tours';
 
 @Component({
   selector: 'app-aside',
-  imports: [SelectModule,FormsModule,DatePickerModule ],
+  standalone: true,
+  imports: [SelectModule, CheckboxModule, FormsModule, DatePickerModule],
   templateUrl: './aside.component.html',
   styleUrl: './aside.component.scss',
 })
-export class AsideComponent  implements OnInit {
+export class AsideComponent implements OnInit {
   private tourService = inject(ToursService);
 
-  date: Date = null; // или Date ()
+  date: Date = null;
+  selectedType: IFilterTypeLogic = null;
 
-  selectedType: IFilterTypeLogic = null; // TODO defined type
+  tourTypes: IFilterTypeLogic[] = [
+    { key: 'single', label: 'Одиночный' },
+    { key: 'group', label: 'Групповой' },
+    { key: 'all', label: 'Все' }
+  ];
 
-  tourTypes: IFilterTypeLogic[]= [                             // TODO defined type
-    {key: 'single', label: 'Одиночный'},
-    {key: 'group', label: 'Груповой'},
-    {key: 'all', label: 'Все'}
-  ]
-  
+  showOnlyInBasket: boolean = false;
+
   ngOnInit(): void {
-    this.selectedType = this.tourTypes.find((type)=> type.key === 'all'); 
-    
+    this.selectedType = this.tourTypes.find(t => t.key === 'all');
   }
-  changeTourType(ev:SelectChangeEvent): void {
-    this.tourService.initChangeTourType (this.selectedType);
+
+  changeTourType(): void {
+    this.tourService.initChangeTourType(this.selectedType);
   }
-  changeDate (ev:Date): void {
-    console.log('date', ev);
+
+  changeDate(ev: Date): void {
     this.tourService.initChangeTourDate(ev);
-    
-    }
-   clearDate(): void{
+  }
+
+  clearDate(): void {
     this.tourService.initChangeTourDate(null);
-   } 
+  }
+
+  onToggleBasketFilter(): void {
+    this.tourService.initChangeBasketFilter(this.showOnlyInBasket);
+  }
 }
 
 

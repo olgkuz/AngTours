@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, delay, forkJoin, map, Observable, of, Subject, switchMap, tap, withLatestFrom } from 'rxjs';
+import { BehaviorSubject, catchError, delay, forkJoin, map, Observable, of, Subject, switchMap, tap, withLatestFrom } from 'rxjs';
 import { API } from '../shared/api';
 import { Coords, IContriesResponseItem, ICountryWeather, IFilterTypeLogic, ITour, IToursServerRes } from '../models/tours';
 import { MapService } from './map.service';
@@ -18,7 +18,10 @@ export class ToursService {
   //date
    private tourDateSubject = new Subject<any>();
    readonly tourDate$ = this.tourDateSubject.asObservable();
-   
+
+   //basket
+   private onlyBasketSubject = new BehaviorSubject<boolean>(false);
+   readonly onlyBasket$ = this.onlyBasketSubject.asObservable();
 
   constructor(
     private http: HttpClient, 
@@ -119,6 +122,9 @@ export class ToursService {
   }
   initChangeTourDate (val:Date): void {
     this.tourDateSubject.next(val)
+  }
+  initChangeBasketFilter(val: boolean): void {
+    this.onlyBasketSubject.next(val);
   }
   
   getCountryByCode(code: string): Observable<ICountryWeather>{
