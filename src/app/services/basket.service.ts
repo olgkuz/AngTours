@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { ITour } from '../models/tours';
 
-const BASKET_STORAGE_KEY = 'basket_store';
+const BasketStorageKey = 'basket_store';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class BasketService {
   basketStore$ = this.basketSubject.asObservable();
 
   constructor() {
-    this.loadFromStorage(); //  восстановление при запуске
+    this.loadFromStorage();
   }
 
   setItemToBasket(item: ITour): void {
@@ -35,22 +35,21 @@ export class BasketService {
 
   private updateStore(): void {
     this.basketSubject.next([...this.basketStore]);
-    localStorage.setItem(BASKET_STORAGE_KEY, JSON.stringify(this.basketStore));
+    sessionStorage.setItem(BasketStorageKey, JSON.stringify(this.basketStore));
   }
 
   private loadFromStorage(): void {
-    const data = localStorage.getItem(BASKET_STORAGE_KEY);
+    const data = sessionStorage.getItem(BasketStorageKey);
     if (data) {
       try {
         const parsed: ITour[] = JSON.parse(data);
         this.basketStore = parsed;
-        
         this.basketStore.forEach(t => t.inBasket = true);
         this.basketSubject.next([...this.basketStore]);
       } catch (e) {
-        console.error('Ошибка при восстановлении корзины:', e);
+        console.error('Ошибка при восстановлении корзины из sessionStorage:', e);
         this.basketStore = [];
-        localStorage.removeItem(BASKET_STORAGE_KEY);
+        sessionStorage.removeItem(BasketStorageKey);
       }
     }
   }
